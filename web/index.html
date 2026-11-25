@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Voz Clara</title>
+  <meta name="description" content="Pratique inglês falado e receba nota e nível CEFR (A1 a C2).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Voz Clara</h1>
+      <p class="muted">Fale em inglês, receba nota em pronúncia, fluência, gramática e vocabulário e acompanhe seu nível na escala CEFR (A1 a C2).</p>
+    </div>
+    <div style="text-align:right">
+      <div class="label">Nível oficial</div>
+      <div class="big-level" id="profile-level">—</div>
+      <div class="small muted" id="profile-note">Faça o teste de nível</div>
+    </div>
+  </header>
+
+  <section aria-labelledby="lvl-h" style="display:flex;flex-direction:column;gap:8px">
+    <div class="row" style="justify-content:space-between">
+      <span class="label" id="lvl-h">Nível de treino (escolhe a dificuldade das perguntas)</span>
+    </div>
+    <div class="ladder" id="ladder" role="group" aria-labelledby="lvl-h"></div>
+    <div class="ladder-legend"><span>Contorno azul: nível em que você está treinando</span><span>Fundo azul: seu nível oficial</span></div>
+  </section>
+
+  <div class="banner bad" id="svc-banner" role="status" hidden></div>
+
+  <nav class="tabs" role="tablist" aria-label="Seções">
+    <button class="tab" role="tab" id="tab-talk" aria-selected="true" aria-controls="p-talk">Conversa</button>
+    <button class="tab" role="tab" id="tab-read" aria-selected="false" aria-controls="p-read" tabindex="-1">Pronúncia</button>
+    <button class="tab" role="tab" id="tab-prog" aria-selected="false" aria-controls="p-prog" tabindex="-1">Progresso</button>
+  </nav>
+
+  <!-- CONVERSA -->
+  <section class="panel" id="p-talk" role="tabpanel" aria-labelledby="tab-talk">
+    <div class="row" style="justify-content:space-between">
+      <div class="seg" role="group" aria-label="Modo">
+        <button type="button" id="mode-free" aria-pressed="true">Conversa livre</button>
+        <button type="button" id="mode-test" aria-pressed="false">Teste de nível</button>
+      </div>
+      <div class="row" id="free-controls">
+        <label class="small muted" for="topic">Tema</label>
+        <select id="topic"></select>
+        <button class="btn" id="restart" type="button">Nova pergunta</button>
+      </div>
+      <div class="row" id="test-controls" hidden>
+        <div class="stepper" id="stepper" aria-live="polite"></div>
+        <button class="btn" id="test-restart" type="button">Recomeçar teste</button>
+      </div>
+    </div>
+    <p class="small muted" id="mode-help"></p>
+
+    <div class="chat" id="chat" aria-live="polite"></div>
+
+    <div class="row" style="align-items:flex-start;flex-wrap:nowrap">
+      <button class="mic" id="mic-talk" type="button" aria-label="Começar a gravar a resposta"></button>
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px">
+        <div class="live" id="live-talk" aria-live="polite"></div>
+        <label for="type-talk" class="sr-only">Resposta digitada em inglês</label>
+        <textarea id="type-talk" placeholder="Ou digite sua resposta em inglês (sem nota de pronúncia e fluência)" hidden></textarea>
+        <div class="row">
+          <button class="btn primary" id="send-talk" type="button" disabled>Enviar resposta</button>
+          <button class="btn" id="clear-talk" type="button">Apagar</button>
+          <button class="btn" id="toggle-type" type="button">Digitar em vez de falar</button>
+        </div>
+      </div>
+    </div>
+    <div id="fb-talk"></div>
+  </section>
+
+  <!-- PRONÚNCIA -->
+  <section class="panel" id="p-read" role="tabpanel" aria-labelledby="tab-read" hidden>
+    <div class="row" style="justify-content:space-between">
+      <h2>Leia em voz alta</h2>
+      <div class="row">
+        <button class="btn" id="listen-model" type="button">Ouvir modelo</button>
+        <button class="btn" id="next-sent" type="button">Outra frase</button>
+      </div>
+    </div>
+    <p class="target" id="target" lang="en"></p>
+    <div class="row" style="align-items:flex-start;flex-wrap:nowrap">
+      <button class="mic" id="mic-read" type="button" aria-label="Começar a gravar a leitura"></button>
+      <div class="live" id="live-read" style="flex:1;min-width:0" aria-live="polite"></div>
+    </div>
+    <div id="fb-read"></div>
+    <p class="note">Como funciona: o áudio vai para o serviço de pronúncia, que compara cada som com a frase. Verde é palavra clara, amarelo é quase lá, vermelho é palavra para treinar. A leitura não altera o seu nível oficial.</p>
+  </section>
+
+  <!-- PROGRESSO -->
+  <section class="panel" id="p-prog" role="tabpanel" aria-labelledby="tab-prog" hidden>
+    <div class="row" style="justify-content:space-between">
+      <h2>Seu progresso</h2>
+      <button class="btn" id="reset-prog" type="button">Apagar histórico</button>
+    </div>
+    <div class="row" id="reset-confirm" hidden>
+      <span class="small">Apagar todas as sessões, respostas e áudios salvos?</span>
+      <button class="btn" id="reset-yes" type="button">Apagar</button><button class="btn" id="reset-no" type="button">Cancelar</button>
+    </div>
+    <div id="prog-body"></div>
+  </section>
+
+  <footer>
+    <button class="linkish" id="open-about" type="button">Sobre e créditos</button>
+    <button class="linkish" id="open-flags" type="button">O que significam os avisos</button>
+  </footer>
+</div>
+
+<dialog id="about" aria-labelledby="about-h">
+  <h2 id="about-h">Sobre o Voz Clara</h2>
+  <p style="margin-top:10px">A nota e o nível vêm de um motor de regras fixo (<code>cefr-engine.js</code>), não da IA. A IA só aponta erros, expressões e estruturas; o serviço de pronúncia mede sons, ritmo e pausas a partir do áudio.</p>
+  <h3 style="margin-top:14px;font-size:1rem">Listas de vocabulário</h3>
+  <ul class="tips small" style="margin-top:6px">
+    <li><b>CEFR-J Wordlist, versão 1.5.</b> Compilada por Yukio Tono, Tokyo University of Foreign Studies (Tono Laboratory). Uso em pesquisa e comercial sem custo, desde que citada. <a href="http://www.cefr-j.org/download.html" target="_blank" rel="noopener">cefr-j.org</a></li>
+    <li><b>Octanove Vocabulary Profile C1/C2, versão 1.0.</b> Octanove Labs. Licença <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</li>
+  </ul>
+  <p class="small muted" style="margin-top:8px">Ambas obtidas em github.com/openlanguageprofiles/olp-en-cefrj.</p>
+  <form method="dialog" style="margin-top:16px"><button class="btn primary">Fechar</button></form>
+</dialog>
+
+<dialog id="flags-dialog" aria-labelledby="flags-h">
+  <h2 id="flags-h">O que significam os avisos</h2>
+  <div id="flags-list" style="display:flex;flex-direction:column;gap:8px;margin-top:12px"></div>
+  <form method="dialog" style="margin-top:16px"><button class="btn primary">Fechar</button></form>
+</dialog>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>

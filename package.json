@@ -1,9 +1,31 @@
 {
-  "name": "cefr-engine",
-  "version": "0.1.0",
-  "description": "Motor de pontuação CEFR (A1–C2) para respostas faladas em inglês",
+  "name": "voz-clara",
+  "version": "0.2.0",
+  "description": "Prática de inglês falado com nota e nível CEFR (A1–C2)",
   "type": "module",
-  "main": "src/cefr-engine.js",
-  "scripts": { "test": "node --test" },
-  "license": "UNLICENSED"
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c blue,magenta \"node --watch server/index.js\" \"vite\"",
+    "build": "vite build",
+    "start": "node server/index.js",
+    "test": "node --test",
+    "calibrate": "node scripts/calibrate.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.14.0",
+    "better-sqlite3": "^13.2.0",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "ffmpeg-static": "^5.3.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.53.0",
+    "multer": "^2.5.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7",
+    "vite": "^8.3.8"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
 }

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+data/audio/
+data/*.db
+data/*.db-*
+data/calibracao/audio/
