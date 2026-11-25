@@ -17,7 +17,15 @@ fluência, gramática e vocabulário, e a sessão gradua o aluno de A1 a C2.
 - Chaves de API só em `.env` (nunca no front-end nem no git). Há um `.env.example`.
 
 ## Comandos
-- `npm test` — testes do motor (node:test, sem rede). Têm de continuar passando.
+- `npm run dev` — front (Vite, porta 5173) + API (Express, porta 3001). Chaves no `.env`.
+- `npm test` — testes do motor, do servidor e da calibração (node:test, sem rede). Têm de continuar passando.
+- `npm run calibrate` — compara o motor com níveis de professores (`data/calibracao/`); nunca altera `ANCHORS`.
+- `npm run build && npm start` — versão de produção servida pelo Express.
+
+## Estrutura
+- `web/` front-end (JavaScript puro). `server/` API: `pipeline.js` (áudio → Azure → Claude → motor),
+  `normalize-azure.js`, `analyze.js` (zod + 1 nova tentativa), `db.js` (SQLite), `sessions.js` (teste de nível).
+- `src/questions.js` perguntas compartilhadas por front e back (o teste de nível é `PLACEMENT_TEST`).
 - Os seis exemplos do documento de critérios estão em `fixtures/examples.js` e são testes de regressão:
   se uma mudança de âncora mudar o nível de algum deles, isso precisa ser intencional e explicado.
 

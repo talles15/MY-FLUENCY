@@ -5,3 +5,4 @@ data/audio/
 data/*.db
 data/*.db-*
 data/calibracao/audio/
+data/calibracao/.cache/
