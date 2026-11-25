@@ -1,5 +1,6 @@
 import { toWav16kMono, wavSeconds } from "./audio.js";
 import { normalizeAzure } from "./normalize-azure.js";
+import { assessResponse } from "../src/cefr-engine.js";
 
 export const MAX_AUDIO_SECONDS = 180;
 
@@ -37,4 +38,21 @@ export async function transcribe({ audio, text, fallbackTranscript, speech, refe
     }
   }
   return out;
+}
+
+/**
+ * Etapa 2: análise linguística pelo LLM e nota pelo motor.
+ * O nível NUNCA vem do LLM: a saída dele só alimenta assessResponse().
+ */
+export async function scoreAnswer({ question, taskType, t, analyze, wordlist }) {
+  const analysis = await analyze({ question, transcript: t.transcript, taskType });
+  const result = assessResponse({
+    transcript: t.transcript,
+    words: t.words,
+    pronunciation: t.pronunciation,
+    analysis,
+    wordlist,
+    taskType,
+  });
+  return { analysis, result };
 }

@@ -1,4 +1,5 @@
 <title>Voz Clara</title>
+<!-- Protótipo antigo, mantido só como referência. O app de verdade está em web/ + server/. -->
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
@@ -386,8 +387,6 @@ Read the conversation and evaluate ONLY the learner's LAST answer. The answer ca
 Reply with only one JSON object, no prose:
 {"reply":"1-2 natural sentences reacting to what they said, in English, at their level",
  "next_question":"one open follow-up question in English on the same topic, at level LEVEL",
- "cefr":"the CEFR level (A1,A2,B1,B2,C1,C2) this answer demonstrates",
- "grammar":0-100, "vocabulary":0-100, "coherence":0-100,
  "corrected":"a natural, corrected version of their answer (same meaning). If it was already correct, repeat it",
  "errors":[{"wrong":"exact words they said","right":"correction","why_pt":"short explanation in Brazilian Portuguese"}],
  "good_words":["up to 4 words or phrases they used well"],
@@ -416,7 +415,7 @@ async function sendTalk(){
     addMsg("assistant", next || "Tell me more.");
     say(next);
     renderFeedback(r, metrics);
-    log({mode:"talk", cefr: LEVELS.includes(r.cefr) ? r.cefr : null, grammar: num(r.grammar), vocab: num(r.vocabulary), wpm: metrics.wpm, pron:null});
+    log({mode:"talk", cefr:null, grammar:null, vocab:null, wpm: metrics.wpm, pron:null});
   } catch(e){
     wait.remove();
     if (e && e.code === "not_granted"){ sample = null; $("noai").hidden = false; fallbackTurn(text, metrics); }
@@ -448,14 +447,9 @@ function renderFeedback(r, metrics){
   const fb = el("div","fb");
   const head = el("div","row"); head.style.justifyContent = "space-between";
   head.append(el("h3",null,"Avaliação da sua última resposta"));
-  if (r && LEVELS.includes(r.cefr)) head.append(el("span","pill","Nível da resposta: " + r.cefr));
   fb.append(head);
   const ms = el("div","meters");
-  if (r){
-    ms.append(meter("Gramática", num(r.grammar), "", num(r.grammar)));
-    ms.append(meter("Vocabulário", num(r.vocabulary), "", num(r.vocabulary)));
-    ms.append(meter("Coerência", num(r.coherence), "", num(r.coherence)));
-  }
+  // nota e nível não vêm mais do modelo: quem calcula é src/cefr-engine.js (veja o app em web/)
   const [w, cls, lab] = wpmTag(metrics.wpm);
   ms.append(meter("Palavras/min", w, "", null, lab ? el("span","pill "+cls, lab) : el("span","small muted", metrics.wpm==null ? "só ao falar" : "")));
   ms.append(meter("Variedade", metrics.count ? metrics.diversity : null, "%", metrics.diversity, el("span","small muted", metrics.count + " palavras")));

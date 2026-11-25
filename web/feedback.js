@@ -6,7 +6,9 @@ const fmtNum = (v, d = 0) => (v == null ? "—" : Number(v).toFixed(d));
 /** Fase 2: mostra transcrição e pronúncia medidas a partir do áudio. */
 export function renderFeedback(box, r) {
   const fb = el("div", "fb");
-  fb.append(el("h3", null, "Sua resposta"));
+  fb.append(el("h3", null, "Sua resposta — nível indicativo " + (r.result.indicativeLevel || "—")));
+  const d = r.result.dimensions;
+  fb.append(el("p", "small", `Pronúncia ${fmtNum(d.pronunciation)} · Fluência ${fmtNum(d.fluency)} · Gramática ${fmtNum(d.grammar)} · Vocabulário ${fmtNum(d.vocabulary)}`));
   const t = el("p", null, r.transcript);
   t.lang = "en";
   fb.append(t);

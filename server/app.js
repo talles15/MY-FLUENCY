@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { transcribe } from "./pipeline.js";
+import { transcribe, scoreAnswer } from "./pipeline.js";
 import { TASK_TYPES } from "../src/questions.js";
 
 /**
@@ -10,13 +10,13 @@ import { TASK_TYPES } from "../src/questions.js";
  * @param {{assess:Function}|null} [deps.speech]
  */
 export function createApp(deps = {}) {
-  const { speech = null } = deps;
+  const { speech = null, analyze = null, wordlist = new Map() } = deps;
   const app = express();
   app.use(express.json({ limit: "1mb" }));
   const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } });
 
   app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, services: { speech: !!speech, llm: !!deps.analyze } });
+    res.json({ ok: true, services: { speech: !!speech, llm: !!analyze } });
   });
 
   /** Avalia uma resposta falada (campo "audio") ou digitada (campo "text"). */
@@ -24,15 +24,18 @@ export function createApp(deps = {}) {
     const { question = "", taskType = "", text = "", fallbackTranscript = "" } = req.body || {};
     if (!TASK_TYPES.includes(taskType)) return res.status(400).json({ error: `taskType inválido. Use: ${TASK_TYPES.join(", ")}.` });
     if (!req.file && !String(text).trim()) return res.status(400).json({ error: "Envie o áudio da resposta ou o texto digitado." });
+    if (!analyze) return res.status(503).json({ error: "A análise por IA não está configurada no servidor (ANTHROPIC_API_KEY)." });
 
     const t = await transcribe({ audio: req.file && req.file.buffer, text, fallbackTranscript, speech });
     if (!t.transcript) {
       return res.status(502).json({ error: "Não consegui transcrever o áudio. " + (t.speechError || "Não ouvi fala em inglês. Tente falar mais perto do microfone.") });
     }
+    const { analysis, result } = await scoreAnswer({ question, taskType, t, analyze, wordlist });
     res.json({
       question, taskType,
-      transcript: t.transcript, words: t.words, wordScores: t.wordScores, pronunciation: t.pronunciation,
+      transcript: t.transcript, wordScores: t.wordScores, pronunciation: t.pronunciation,
       transcriptSource: t.source, speechError: t.speechError,
+      analysis, result,
     });
   });
 
