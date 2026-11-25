@@ -6,11 +6,14 @@ import { createApp } from "./app.js";
 import { createAzureSpeech } from "./azure-speech.js";
 import { createAnalyzer } from "./analyze.js";
 import { loadWordlist } from "./wordlist.js";
+import { openStore } from "./db.js";
 
 const speech = createAzureSpeech({ key: config.azureKey, region: config.azureRegion });
 const analyze = createAnalyzer({ apiKey: config.anthropicKey, model: config.anthropicModel });
 const wordlist = loadWordlist(); // uma vez, na subida
-const app = createApp({ speech, analyze, wordlist });
+const store = openStore(config.dbPath);
+fs.mkdirSync(config.audioDir, { recursive: true });
+const app = createApp({ speech, analyze, wordlist, store, audioDir: config.audioDir });
 
 // Em produção (npm run build && npm start) o próprio Express serve o front-end.
 const dist = path.join(ROOT, "dist");

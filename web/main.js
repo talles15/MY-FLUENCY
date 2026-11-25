@@ -1,9 +1,10 @@
 import { $, el, LEVEL_NAMES, MIC_SVG, STOP_SVG, store, say, listenButton } from "./ui.js";
 import { api } from "./api.js";
 import { createRecorder, canRecord } from "./recorder.js";
-import { renderFeedback, renderReading } from "./feedback.js";
+import { renderFeedback, renderReading, renderOutcome } from "./feedback.js";
 import { LEVELS } from "../src/cefr-engine.js";
-import { TOPICS, SENTENCES, bandOf } from "../src/questions.js";
+import { TOPICS, SENTENCES, PLACEMENT_TEST, TASK_LABELS, bandOf } from "../src/questions.js";
+import { RULES } from "../src/cefr-engine.js";
 
 const state = {
   trainingLevel: store.get("level", "B1"),
@@ -14,6 +15,9 @@ const state = {
   take: null, // última gravação { blob, seconds, fallbackTranscript }
   busy: false,
   sentence: "",
+  mode: "free", // "free" | "test"
+  freeSessionId: null,
+  test: null, // { sessionId, step }
 };
 const ttsRate = () => (state.trainingLevel < "B1" ? 0.85 : 1);
 
@@ -28,7 +32,7 @@ function renderLadder() {
     b.setAttribute("aria-label", `Treinar no nível ${l}, ${LEVEL_NAMES[l]}` + (l === state.profileLevel ? " (seu nível oficial)" : ""));
     if (l === state.profileLevel) b.classList.add("est");
     b.append(el("b", null, l), el("span", null, LEVEL_NAMES[l]));
-    b.onclick = () => { state.trainingLevel = l; store.set("level", l); renderLadder(); nextQuestion(); newSentence(); };
+    b.onclick = () => { state.trainingLevel = l; store.set("level", l); renderLadder(); if (state.mode === "free") nextQuestion(); newSentence(); };
     lad.append(b);
   }
 }
@@ -78,6 +82,83 @@ for (const t of Object.keys(TOPICS)) topicSel.append(new Option(t, t));
 topicSel.value = state.topic;
 topicSel.onchange = () => { state.topic = topicSel.value; store.set("topic", state.topic); $("chat").replaceChildren(); nextQuestion(); };
 $("restart").onclick = nextQuestion;
+
+/* ---------- modos: conversa livre x teste de nível ---------- */
+const HELP = {
+  free: "Responda às perguntas do tutor. Cada resposta recebe notas e um nível indicativo; o seu nível oficial não muda aqui.",
+  test: `Três perguntas, uma de cada tipo (descrever, narrar, argumentar), subindo de dificuldade. Fale pelo menos ${RULES.minWordsPerResponse} palavras em cada uma (cerca de 1 minuto). O nível oficial é definido depois de ${RULES.hysteresisSessions} testes e só muda após ${RULES.hysteresisSessions} testes seguidos acima ou abaixo.`,
+};
+
+function setMode(mode) {
+  state.mode = mode;
+  $("mode-free").setAttribute("aria-pressed", String(mode === "free"));
+  $("mode-test").setAttribute("aria-pressed", String(mode === "test"));
+  $("free-controls").hidden = mode !== "free";
+  $("test-controls").hidden = mode !== "test";
+  $("mode-help").textContent = HELP[mode];
+  $("chat").replaceChildren();
+  $("fb-talk").replaceChildren();
+  clearTalk();
+  if (mode === "free") { state.question = null; nextQuestion(); }
+  else startTest();
+}
+$("mode-free").onclick = () => setMode("free");
+$("mode-test").onclick = () => setMode("test");
+$("test-restart").onclick = () => { $("chat").replaceChildren(); $("fb-talk").replaceChildren(); startTest(); };
+
+function renderStepper() {
+  const st = $("stepper");
+  st.replaceChildren();
+  const step = state.test && state.test.step;
+  const pos = step ? (step.done ? PLACEMENT_TEST.length : step.position) : 0;
+  PLACEMENT_TEST.forEach((_, i) => { st.append(el("i", i < pos ? "done" : i === pos ? "cur" : "")); });
+  st.append(el("span", null, step && !step.done ? `Pergunta ${step.position + 1} de ${PLACEMENT_TEST.length}` : "Teste concluído"));
+}
+
+function showTestStep(step) {
+  state.test.step = step;
+  renderStepper();
+  if (step.done) { state.question = null; $("mic-talk").disabled = true; return; }
+  $("mic-talk").disabled = false;
+  state.question = { q: step.question, taskType: step.taskType };
+  if (step.attempt > 1) {
+    const why = (step.retryReason || []).includes("possivel_leitura") ? "a resposta pareceu lida" : `a resposta teve menos de ${RULES.minWordsPerResponse} palavras`;
+    addMsg("assistant", `Let's try that one again — please say a bit more. ${step.question}`);
+    $("fb-talk").prepend(el("p", "banner", `Vamos repetir a pergunta ${step.position + 1}: ${why}, e respostas assim não contam para o nível. Esta é a última tentativa.`));
+  } else {
+    addMsg("assistant", `(${TASK_LABELS[step.taskType]}) ${step.question}`);
+  }
+}
+
+async function startTest() {
+  try {
+    const r = await api.json("POST", "/api/sessions", { kind: "test" });
+    state.test = { sessionId: r.session.id, step: null };
+    showTestStep(r.step);
+  } catch (e) {
+    $("fb-talk").replaceChildren(el("p", "banner bad", "Não consegui começar o teste: " + e.message));
+  }
+}
+
+async function ensureFreeSession() {
+  if (state.freeSessionId) return state.freeSessionId;
+  const r = await api.json("POST", "/api/sessions", { kind: "free" });
+  state.freeSessionId = r.session.id;
+  return state.freeSessionId;
+}
+
+async function loadProfile() {
+  try {
+    const p = await api.json("GET", "/api/profile");
+    state.profileLevel = p.level;
+    $("profile-level").textContent = p.level || "—";
+    const n = (p.history || []).length;
+    $("profile-note").textContent = p.level
+      ? `${LEVEL_NAMES[p.level]} · ${n} teste${n === 1 ? "" : "s"} oficial${n === 1 ? "" : "is"}`
+      : `Faça ${Math.max(0, RULES.hysteresisSessions - n)} teste${RULES.hysteresisSessions - n === 1 ? "" : "s"} de nível para definir`;
+    renderLadder();
+  } catch { /* servidor fora do ar: o banner já avisa */ }
+}
 
 /* ---------- gravação ---------- */
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
@@ -142,7 +223,7 @@ async function sendTalk() {
   if (state.busy) return;
   const text = state.typing ? $("type-talk").value.trim() : "";
   const take = state.typing ? null : state.take;
-  if (!text && !take) return;
+  if ((!text && !take) || !state.question) return;
   state.busy = true;
   $("send-talk").disabled = true;
   addMsg("user", text || "🎙️ resposta gravada");
@@ -150,7 +231,9 @@ async function sendTalk() {
   wait.setAttribute("role", "status");
   $("fb-talk").replaceChildren(wait);
   try {
+    const sessionId = state.mode === "test" ? state.test.sessionId : await ensureFreeSession();
     const r = await api.assess({
+      sessionId,
       question: state.question.q,
       taskType: state.question.taskType,
       text,
@@ -160,8 +243,14 @@ async function sendTalk() {
     if (last && r.transcript) last.lastElementChild.textContent = r.transcript;
     renderFeedback($("fb-talk"), r, { rate: ttsRate() });
     clearTalk();
-    nextQuestion();
+    if (state.mode === "free") nextQuestion();
+    else if (r.test && r.test.done) {
+      showTestStep({ done: true });
+      renderOutcome($("fb-talk"), r.test.outcome);
+      await loadProfile();
+    } else if (r.test) showTestStep(r.test.step);
   } catch (e) {
+    if (e.status === 409 && state.mode === "free") state.freeSessionId = null; // sessão do dia fechada: abre outra no próximo envio
     $("fb-talk").replaceChildren(el("p", "banner bad", e.message));
     $("send-talk").disabled = false;
   } finally {
@@ -224,8 +313,8 @@ $("mic-read").disabled = !canRecord();
 $("open-about").onclick = () => $("about").showModal();
 $("open-flags").onclick = () => $("flags-dialog").showModal();
 renderLadder();
-nextQuestion();
 newSentence();
-clearTalk();
 showTyping(state.typing);
+setMode("free");
 checkServices();
+loadProfile();

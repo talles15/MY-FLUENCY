@@ -58,3 +58,14 @@ export function renderReading(box, target, r, { rate = 1 } = {}) {
   }
   box.replaceChildren(fb);
 }
+
+/** Resultado do teste de nível (fase 4: resumo simples). */
+export function renderOutcome(box, o) {
+  const fb = el("div", "fb");
+  fb.append(el("h3", null, o.official ? `Resultado do teste: ${o.sessionLevel}` : "Teste concluído, mas não oficial"));
+  if (!o.official) fb.append(el("p", null, "Motivos: " + o.reasons.join("; ") + "."));
+  else if (o.changed) fb.append(el("p", null, `Seu nível oficial agora é ${o.profileAfter}.`));
+  else if (!o.profileAfter) fb.append(el("p", null, `Faltam ${o.sessionsToDefine} teste(s) para definir seu nível oficial.`));
+  else fb.append(el("p", null, `Seu nível oficial continua ${o.profileAfter}. Ele só muda depois de 3 testes seguidos acima ou abaixo.`));
+  box.append(fb);
+}

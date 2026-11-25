@@ -21,7 +21,7 @@ test("GET /api/health informa quais serviços estão configurados", async () => 
   const s = await listen(createApp({ speech: { assess: async () => [] } }));
   try {
     const r = await fetch(s.url + "/api/health").then((x) => x.json());
-    assert.deepEqual(r.services, { speech: true, llm: false });
+    assert.deepEqual(r.services, { speech: true, llm: false, db: false });
   } finally { await s.close(); }
 });
 
