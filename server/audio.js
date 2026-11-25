@@ -3,18 +3,28 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
-import ffmpegPath from "ffmpeg-static";
+import { wavInfo, isWav16kMono, TARGET_RATE } from "../src/wav.js";
 
 /**
- * Converte qualquer áudio do navegador (webm/opus, mp4/aac, ogg...) em WAV PCM 16 kHz mono 16 bits.
- * Usa arquivo temporário em vez de pipe porque MP4 do Safari precisa de busca no arquivo.
+ * Garante WAV PCM 16 kHz mono 16 bits.
+ * - O navegador já envia nesse formato (web/wav.js): o arquivo passa direto, sem ffmpeg.
+ * - Outros formatos (ex.: áudios da calibração) são convertidos com ffmpeg-static, que só é
+ *   carregado aqui e fica de fora do pacote da Vercel.
  */
 export async function toWav16kMono(input) {
+  const bytes = Buffer.isBuffer(input) ? input : Buffer.from(input);
+  if (isWav16kMono(bytes)) return bytes;
+
+  let ffmpegPath;
+  try { ({ default: ffmpegPath } = await import("ffmpeg-static")); } catch { ffmpegPath = null; }
+  if (!ffmpegPath) {
+    throw Object.assign(new Error("O áudio precisa chegar em WAV 16 kHz mono (o navegador faz essa conversão). Atualize a página e grave de novo."), { status: 400 });
+  }
   const tmp = path.join(os.tmpdir(), `vozclara-${crypto.randomUUID()}`);
-  await fs.writeFile(tmp, input);
+  await fs.writeFile(tmp, bytes);
   try {
     return await new Promise((resolve, reject) => {
-      const args = ["-hide_banner", "-loglevel", "error", "-i", tmp, "-ac", "1", "-ar", "16000", "-acodec", "pcm_s16le", "-f", "wav", "pipe:1"];
+      const args = ["-hide_banner", "-loglevel", "error", "-i", tmp, "-ac", "1", "-ar", String(TARGET_RATE), "-acodec", "pcm_s16le", "-f", "wav", "pipe:1"];
       const p = spawn(ffmpegPath, args);
       const out = [], err = [];
       p.stdout.on("data", (d) => out.push(d));
@@ -22,7 +32,7 @@ export async function toWav16kMono(input) {
       p.on("error", reject);
       p.on("close", (code) => {
         const wav = Buffer.concat(out);
-        if (code !== 0 || wav.length <= 44) reject(new Error("Não consegui ler o áudio enviado. " + Buffer.concat(err).toString().trim()));
+        if (code !== 0 || wav.length <= 44) reject(Object.assign(new Error("Não consegui ler o áudio enviado. " + Buffer.concat(err).toString().trim()), { status: 400 }));
         else resolve(wav);
       });
     });
@@ -31,17 +41,12 @@ export async function toWav16kMono(input) {
   }
 }
 
-/** Separa o PCM do cabeçalho WAV (procura o bloco "data"). */
+/** Separa o PCM do cabeçalho WAV. */
 export function pcmFromWav(wav) {
-  let i = 12;
-  while (i + 8 <= wav.length) {
-    const id = wav.toString("ascii", i, i + 4);
-    const size = wav.readUInt32LE(i + 4);
-    if (id === "data") return wav.subarray(i + 8, Math.min(wav.length, i + 8 + size));
-    i += 8 + size + (size % 2);
-  }
-  throw new Error("WAV sem bloco de dados.");
+  const w = wavInfo(wav);
+  if (!w) throw new Error("WAV sem bloco de dados.");
+  return wav.subarray(w.dataOffset, w.dataOffset + w.dataLength);
 }
 
 /** Duração em segundos de um WAV PCM 16 kHz mono 16 bits. */
-export const wavSeconds = (wav) => pcmFromWav(wav).length / (16000 * 2);
+export const wavSeconds = (wav) => pcmFromWav(wav).length / (TARGET_RATE * 2);

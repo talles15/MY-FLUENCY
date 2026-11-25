@@ -5,6 +5,7 @@
  *   npm run calibrate                 # roda o pipeline completo (Azure + Claude + motor)
  *   npm run calibrate -- --offline    # só usa o cache (não chama Azure nem Claude)
  *   npm run calibrate -- --no-cache   # ignora o cache e chama tudo de novo
+ *   npm run calibrate -- --model claude-haiku-5-5   # compara outro modelo (padrão: o do teste de nível)
  *
  * Lê data/calibracao/*.json, cada um com { audioFile, question, taskType, teacherLevel }
  * (audioFile relativo a data/calibracao/). Imprime concordância, matriz de confusão e as
@@ -26,15 +27,17 @@ import { agreement, medians, suggestAnchors, formatReport } from "./calibrate-li
 const DIR = path.join(ROOT, "data", "calibracao");
 const CACHE = path.join(DIR, ".cache");
 const OUT = path.join(DIR, "sugestao-ancoras.json");
-const args = new Set(process.argv.slice(2));
+const argv = process.argv.slice(2);
+const args = new Set(argv);
 const offline = args.has("--offline"), noCache = args.has("--no-cache");
+const model = argv.includes("--model") ? argv[argv.indexOf("--model") + 1] : config.modelTest;
 
 if (!fs.existsSync(DIR)) { console.error(`Pasta ${DIR} não existe. Veja data/calibracao/LEIA-ME.md.`); process.exit(1); }
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith(".json") && f !== path.basename(OUT)).sort();
 if (!files.length) { console.error("Nenhuma amostra .json em data/calibracao/. Veja data/calibracao/LEIA-ME.md."); process.exit(1); }
 
 const speech = offline ? null : createAzureSpeech({ key: config.azureKey, region: config.azureRegion });
-const analyze = offline ? null : createAnalyzer({ apiKey: config.anthropicKey, model: config.anthropicModel });
+const analyze = offline ? null : createAnalyzer({ apiKey: config.anthropicKey, model });
 if (!offline && !analyze) { console.error("ANTHROPIC_API_KEY vazia no .env (ou use --offline para usar só o cache)."); process.exit(1); }
 if (!offline && !speech) console.warn("Aviso: sem Azure — pronúncia e fluência ficam de fora e a calibração dessas métricas não vale.");
 const wordlist = loadWordlist();
@@ -52,7 +55,7 @@ for (const file of files) {
     const audio = fs.readFileSync(audioPath);
 
     // o cache guarda só o que custa dinheiro (Azure + Claude); o motor roda sempre de novo
-    const hash = crypto.createHash("sha256").update(audio).update(question).update(taskType).update(config.anthropicModel).digest("hex").slice(0, 16);
+    const hash = crypto.createHash("sha256").update(audio).update(question).update(taskType).update(model).digest("hex").slice(0, 16);
     const cacheFile = path.join(CACHE, `${path.basename(file, ".json")}-${hash}.json`);
     let cached = !noCache && fs.existsSync(cacheFile) ? JSON.parse(fs.readFileSync(cacheFile, "utf8")) : null;
     if (!cached) {
@@ -74,8 +77,10 @@ for (const file of files) {
 const agree = agreement(items);
 const med = medians(items);
 const sugg = suggestAnchors(med);
+console.log(`Modelo da análise: ${model}\n`);
 fs.writeFileSync(OUT, JSON.stringify({
   geradoEm: new Date().toISOString(),
+  modelo: model,
   amostras: items.length,
   concordancia: { exata: agree.exactPct, maisMenosUm: agree.within1Pct, matriz: agree.matrix },
   ancorasAtuais: ANCHORS,

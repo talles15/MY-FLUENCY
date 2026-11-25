@@ -1,21 +1,14 @@
+// Servidor local: npm run dev (com o Vite) ou npm start (serve o build de dist/).
 import fs from "node:fs";
 import path from "node:path";
 import express from "express";
 import { config, ROOT } from "./config.js";
 import { createApp } from "./app.js";
-import { createAzureSpeech } from "./azure-speech.js";
-import { createAnalyzer } from "./analyze.js";
-import { loadWordlist } from "./wordlist.js";
-import { openStore } from "./db.js";
+import { buildDeps } from "./services.js";
 
-const speech = createAzureSpeech({ key: config.azureKey, region: config.azureRegion });
-const analyze = createAnalyzer({ apiKey: config.anthropicKey, model: config.anthropicModel });
-const wordlist = loadWordlist(); // uma vez, na subida
-const store = openStore(config.dbPath);
-fs.mkdirSync(config.audioDir, { recursive: true });
-const app = createApp({ speech, analyze, wordlist, store, audioDir: config.audioDir });
+const deps = await buildDeps();
+const app = createApp(deps);
 
-// Em produção (npm run build && npm start) o próprio Express serve o front-end.
 const dist = path.join(ROOT, "dist");
 if (fs.existsSync(dist)) {
   app.use(express.static(dist));
@@ -23,7 +16,9 @@ if (fs.existsSync(dist)) {
 }
 
 app.listen(config.port, () => {
-  console.log(`Voz Clara (API) em http://localhost:${config.port} — modelo ${config.anthropicModel}, ${wordlist.size} palavras na lista CEFR`);
-  if (!analyze) console.warn("Aviso: ANTHROPIC_API_KEY vazia — a análise de gramática e vocabulário não vai funcionar.");
-  if (!speech) console.warn("Aviso: AZURE_SPEECH_KEY/REGION vazias — sem pronúncia nem tempos por palavra pelo áudio.");
+  console.log(`Voz Clara (API) em http://localhost:${config.port}`);
+  console.log(`  banco: ${deps.mode === "supabase" ? "Supabase (login obrigatório)" : "SQLite local, sem login"}`);
+  console.log(`  modelos: conversa livre ${config.modelFree} · teste de nível ${config.modelTest}`);
+  if (!deps.analyze) console.warn("Aviso: ANTHROPIC_API_KEY vazia — a análise de gramática e vocabulário não vai funcionar.");
+  if (!deps.speech) console.warn("Aviso: AZURE_SPEECH_KEY/REGION vazias — sem pronúncia nem tempos por palavra.");
 });

@@ -23,6 +23,20 @@
     </div>
   </header>
 
+  <section class="panel" id="login" hidden aria-labelledby="login-h" style="max-width:460px">
+    <h2 id="login-h">Entrar</h2>
+    <p class="small muted">O app é privado. Digite o seu e-mail cadastrado e enviaremos um link de acesso.</p>
+    <form id="login-form" class="row" style="align-items:stretch">
+      <label for="login-email" class="sr-only">E-mail</label>
+      <input id="login-email" type="email" required autocomplete="email" placeholder="seu@email.com"
+        style="flex:1;min-width:200px;font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px">
+      <button class="btn primary" type="submit" id="login-send">Enviar link</button>
+    </form>
+    <p class="small" id="login-msg" role="status"></p>
+  </section>
+
+  <div id="app" style="display:flex;flex-direction:column;gap:18px" hidden>
+
   <section aria-labelledby="lvl-h" style="display:flex;flex-direction:column;gap:8px">
     <div class="row" style="justify-content:space-between">
       <span class="label" id="lvl-h">Nível de treino (escolhe a dificuldade das perguntas)</span>
@@ -107,9 +121,12 @@
     <div id="prog-body"></div>
   </section>
 
+  </div>
+
   <footer>
     <button class="linkish" id="open-about" type="button">Sobre e créditos</button>
     <button class="linkish" id="open-flags" type="button">O que significam os avisos</button>
+    <button class="linkish" id="sign-out" type="button" hidden>Sair</button>
   </footer>
 </div>
 

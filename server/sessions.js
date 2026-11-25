@@ -30,16 +30,16 @@ export function finalAttempts(responses) {
  * Fecha o teste: assessSession() nas respostas e, se a sessão for oficial, updateProfileLevel().
  * O nível do perfil só muda pelas regras do motor (inclusive a histerese de 3 sessões).
  */
-export function finishTest(store, session, user) {
-  const responses = finalAttempts(store.listResponses(session.id));
+export async function finishTest(store, userId, session) {
+  const responses = finalAttempts(await store.listResponses(userId, session.id));
   const result = assessSession(responses.map((r) => r.assessment));
-  const before = { level: user.level, history: user.history };
+  const before = await store.getProfile(userId);
   let after = before;
   if (result.official && result.level) {
     after = updateProfileLevel(before, result.level);
-    store.saveProfile(user.id, after);
+    await store.saveProfile(userId, after);
   }
-  const s = store.finishSession(session.id, { official: result.official, level: result.level, result, profileBefore: before, profileAfter: after });
+  const s = await store.finishSession(userId, session.id, { official: result.official, level: result.level, result, profileBefore: before, profileAfter: after });
   return { session: s, outcome: describeOutcome(result, before, after) };
 }
 
@@ -67,11 +67,17 @@ export function describeOutcome(result, before, after) {
  * Evolução por sessão: as quatro dimensões (média ponderada por palavras das respostas válidas,
  * a mesma conta de assessSession) e o histórico de níveis oficiais.
  */
-export function progress(store, user) {
+export async function progress(store, userId) {
   const sessions = [];
   const officialHistory = [];
-  for (const s of store.listSessions(user.id)) {
-    const responses = store.listResponses(s.id);
+  const profile = await store.getProfile(userId);
+  const bySession = new Map();
+  for (const r of await store.listAllResponses(userId)) {
+    if (!bySession.has(r.sessionId)) bySession.set(r.sessionId, []);
+    bySession.get(r.sessionId).push(r);
+  }
+  for (const s of await store.listSessions(userId)) {
+    const responses = bySession.get(s.id) || [];
     if (!responses.length) continue;
     const chosen = s.kind === "test" ? finalAttempts(responses) : responses;
     const r = s.result || assessSession(chosen.map((x) => x.assessment));
@@ -87,5 +93,14 @@ export function progress(store, user) {
       officialHistory.push({ sessionId: s.id, date: s.finishedAt, sessionLevel: s.level, profileLevel: s.profileAfter && s.profileAfter.level });
     }
   }
-  return { profile: { level: user.level, history: user.history }, sessions, officialHistory };
+  return { profile, sessions, officialHistory };
+}
+
+/** Início do dia de hoje (ISO, UTC) no fuso do aluno — a conversa livre agrupa respostas por dia. */
+export function startOfTodayIso(timeZone = "America/Sao_Paulo", nowDate = new Date()) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", { timeZone, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23" })
+    .formatToParts(nowDate).map((p) => [p.type, p.value]));
+  const asUtc = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour, +parts.minute, +parts.second);
+  const offsetMs = asUtc - Math.floor(nowDate.getTime() / 1000) * 1000; // fuso - UTC
+  return new Date(Date.UTC(+parts.year, +parts.month - 1, +parts.day) - offsetMs).toISOString();
 }

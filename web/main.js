@@ -1,5 +1,6 @@
 import { $, el, LEVEL_NAMES, MIC_SVG, STOP_SVG, store, say, listenButton } from "./ui.js";
 import { api } from "./api.js";
+import { initAuth, currentSession, sendMagicLink, signOut, onSignedIn } from "./auth.js";
 import { createRecorder, canRecord } from "./recorder.js";
 import { renderFeedback, renderReading, renderOutcome, FLAG_TEXT } from "./feedback.js";
 import { renderProgress } from "./progress.js";
@@ -329,15 +330,65 @@ async function checkServices() {
   }
 }
 
+/* ---------- login ---------- */
+function showLogin(msg = "") {
+  $("app").hidden = true;
+  $("login").hidden = false;
+  $("sign-out").hidden = true;
+  document.querySelector(".profile-box").hidden = true;
+  $("login-msg").textContent = msg;
+  $("login-email").focus();
+}
+$("login-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const email = $("login-email").value.trim();
+  $("login-send").disabled = true;
+  $("login-msg").textContent = "Enviando…";
+  try {
+    await sendMagicLink(email);
+    $("login-msg").textContent = `Pronto! Abra o e-mail enviado para ${email} e toque no link para entrar.`;
+  } catch (err) {
+    $("login-msg").textContent = err.message;
+  } finally {
+    $("login-send").disabled = false;
+  }
+};
+$("sign-out").onclick = async () => { await signOut(); state.freeSessionId = null; showLogin("Você saiu."); };
+window.addEventListener("vozclara:logout", () => showLogin("Sua sessão expirou ou este e-mail não tem acesso. Entre de novo."));
+
 /* ---------- início ---------- */
 setMic($("mic-talk"), false, "Começar a gravar a resposta");
 setMic($("mic-read"), false, "Começar a gravar a leitura");
 $("mic-read").disabled = !canRecord();
 $("open-about").onclick = () => $("about").showModal();
 $("open-flags").onclick = () => $("flags-dialog").showModal();
-renderLadder();
-newSentence();
-showTyping(state.typing);
-setMode("free");
-checkServices();
-loadProfile();
+
+let started = false;
+function startApp(authRequired) {
+  $("login").hidden = true;
+  $("app").hidden = false;
+  document.querySelector(".profile-box").hidden = false;
+  $("sign-out").hidden = !authRequired;
+  if (!started) {
+    started = true;
+    renderLadder();
+    newSentence();
+    showTyping(state.typing);
+    setMode("free");
+    checkServices();
+  }
+  loadProfile();
+}
+
+(async () => {
+  let cfg;
+  try { cfg = await initAuth(); } catch {
+    $("svc-banner").textContent = "Não consegui falar com o servidor. Ele está rodando? Use npm run dev.";
+    $("svc-banner").hidden = false;
+    return;
+  }
+  if (!cfg.authRequired) return startApp(false);
+  onSignedIn(() => startApp(true));
+  if (await currentSession()) startApp(true);
+  else showLogin();
+})();

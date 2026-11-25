@@ -4,7 +4,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createApp } from "../server/app.js";
-import { openStore } from "../server/db.js";
+import { openSqliteStore } from "../server/store-sqlite.js";
+import { createFsAudioStore } from "../server/audio-store.js";
 import { loadWordlist } from "../server/wordlist.js";
 import { EXAMPLES, synthTimings } from "../fixtures/examples.js";
 import { PLACEMENT_TEST } from "../src/questions.js";
@@ -32,17 +33,19 @@ function fakes(sequence) {
       }];
     },
   };
-  const analyze = async () => sequence[j++ % sequence.length].analysis;
+  const analyze = async (args) => { analyze.purposes.push(args.purpose); return sequence[j++ % sequence.length].analysis; };
+  analyze.purposes = [];
   return { speech, analyze };
 }
 
 async function setup(sequence) {
   const audioDir = fs.mkdtempSync(path.join(os.tmpdir(), "vozclara-audio-"));
-  const store = openStore(":memory:");
-  const s = await listen(createApp({ ...fakes(sequence), wordlist, store, audioDir }));
+  const store = await openSqliteStore(":memory:");
+  const f = fakes(sequence);
+  const s = await listen(createApp({ ...f, wordlist, store, audioStore: createFsAudioStore(audioDir) }));
   const post = (url, body) => fetch(s.url + url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
   const answer = (sessionId, extra = {}) => fetch(s.url + "/api/assess", { method: "POST", body: form({ sessionId, taskType: "describe", question: "ignored", ...extra }, makeWebm(1)) }).then(async (r) => ({ status: r.status, body: await r.json() }));
-  return { s, store, audioDir, post, answer, close: () => { s.close(); store.close(); fs.rmSync(audioDir, { recursive: true, force: true }); } };
+  return { s, store, audioDir, post, answer, analyze: f.analyze, close: () => { s.close(); store.close(); fs.rmSync(audioDir, { recursive: true, force: true }); } };
 }
 
 // respostas longas o bastante (>= 40 palavras) e do mesmo nível, para a sessão ser oficial
@@ -64,6 +67,7 @@ test("teste de nível: 3 perguntas na ordem describe, narrate, argument; salva r
       assert.equal(last.body.question, PLACEMENT_TEST[k].q);
     }
     assert.deepEqual(order, ["describe", "narrate", "argument"]);
+    assert.deepEqual(t.analyze.purposes, ["test", "test", "test"], "teste de nível usa o modelo do teste");
     assert.equal(last.body.test.done, true);
     const o = last.body.test.outcome;
     assert.equal(o.official, true, JSON.stringify(o.reasons));
@@ -71,7 +75,7 @@ test("teste de nível: 3 perguntas na ordem describe, narrate, argument; salva r
     assert.equal(o.profileAfter, null, "o nível do perfil só é definido depois de 3 sessões oficiais");
     assert.equal(o.sessionsToDefine, 2);
 
-    const rows = t.store.listResponses(start.session.id);
+    const rows = await t.store.listResponses("local", start.session.id);
     assert.equal(rows.length, 3);
     assert.ok(rows[0].assessment.dimensions && rows[0].assessment.details.vocabulary.profile, "JSON completo de assessResponse");
     assert.ok(fs.existsSync(path.join(t.audioDir, rows[0].audioPath)), "áudio salvo em disco");
@@ -105,6 +109,7 @@ test("depois de 3 testes oficiais o perfil ganha nível; conversa livre nunca mu
       assert.equal(r.body.test, undefined);
       assert.ok(r.body.result.indicativeLevel);
     }
+    assert.equal(t.analyze.purposes.at(-1), "free", "conversa livre usa o modelo barato");
     const after = await fetch(t.s.url + "/api/profile").then((x) => x.json());
     assert.deepEqual(after, profile);
 
@@ -139,7 +144,7 @@ test("apagar histórico remove sessões, áudios e nível", async () => {
   try {
     const { session } = await t.post("/api/sessions", { kind: "free" });
     await t.answer(session.id, { taskType: "opinion" });
-    const audio = t.store.listResponses(session.id)[0].audioPath;
+    const audio = (await t.store.listResponses("local", session.id))[0].audioPath;
     const r = await fetch(t.s.url + "/api/history", { method: "DELETE" }).then((x) => x.json());
     assert.equal(r.ok, true);
     const prog = await fetch(t.s.url + "/api/progress").then((x) => x.json());

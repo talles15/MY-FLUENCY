@@ -102,3 +102,16 @@ export function createAnalyzer({ apiKey, model = "claude-sonnet-5-5", client, te
     throw new AnalysisError("A análise de gramática e vocabulário veio num formato inválido duas vezes. Tente enviar de novo. Detalhe: " + p2.error);
   };
 }
+
+/**
+ * Escolhe o modelo pelo tipo de sessão: o teste de nível (que define o nível oficial) usa o modelo
+ * mais cuidadoso; a conversa livre, o mais barato.
+ */
+export function createModelRouter({ apiKey, freeModel, testModel, client }) {
+  const free = createAnalyzer({ apiKey, model: freeModel, client });
+  if (!free) return null;
+  const test = testModel === freeModel ? free : createAnalyzer({ apiKey, model: testModel, client });
+  const route = (args) => (args.purpose === "test" ? test : free)(args);
+  route.modelFor = (purpose) => (purpose === "test" ? testModel : freeModel);
+  return route;
+}

@@ -44,8 +44,8 @@ export async function transcribe({ audio, text, fallbackTranscript, speech, refe
  * Etapa 2: análise linguística pelo LLM e nota pelo motor.
  * O nível NUNCA vem do LLM: a saída dele só alimenta assessResponse().
  */
-export async function scoreAnswer({ question, taskType, t, analyze, wordlist }) {
-  const analysis = await analyze({ question, transcript: t.transcript, taskType });
+export async function scoreAnswer({ question, taskType, t, analyze, wordlist, purpose = "free" }) {
+  const analysis = await analyze({ question, transcript: t.transcript, taskType, purpose });
   const result = assessResponse({
     transcript: t.transcript,
     words: t.words,

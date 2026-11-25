@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" }
+  ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60,
+      "includeFiles": "{data/*.csv,prompts/analise-llm.md}",
+      "excludeFiles": "{node_modules/ffmpeg-static/**,node_modules/better-sqlite3/**,data/audio/**,legacy/**,fixtures/**}"
+    }
+  }
+}

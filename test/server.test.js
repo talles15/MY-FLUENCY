@@ -44,6 +44,7 @@ test("POST /api/assess com áudio: Azure -> Claude -> motor; o nível vem só do
     assert.equal(got.wav.readUInt32LE(24), 16000);
     assert.equal(got.opts.referenceText, undefined, "modo sem roteiro");
     assert.equal(analyze.calls[0].question, "Tell me about a trip.");
+    assert.equal(analyze.calls[0].purpose, "free");
     assert.match(analyze.calls[0].transcript, /^Last year, in twenty nineteen/);
     assert.equal(r.result.details.fluency.metrics.durationSec > 0, true, "fluência a partir dos tempos do Azure");
     assert.equal(r.analysis.cefr, "C2", "o servidor repassa o que o analisador devolveu…");
