@@ -1,0 +1,9 @@
+{
+  "name": "cefr-engine",
+  "version": "0.1.0",
+  "description": "Motor de pontuação CEFR (A1–C2) para respostas faladas em inglês",
+  "type": "module",
+  "main": "src/cefr-engine.js",
+  "scripts": { "test": "node --test" },
+  "license": "UNLICENSED"
+}
