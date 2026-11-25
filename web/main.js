@@ -1,7 +1,8 @@
 import { $, el, LEVEL_NAMES, MIC_SVG, STOP_SVG, store, say, listenButton } from "./ui.js";
 import { api } from "./api.js";
 import { createRecorder, canRecord } from "./recorder.js";
-import { renderFeedback, renderReading, renderOutcome } from "./feedback.js";
+import { renderFeedback, renderReading, renderOutcome, FLAG_TEXT } from "./feedback.js";
+import { renderProgress } from "./progress.js";
 import { LEVELS } from "../src/cefr-engine.js";
 import { TOPICS, SENTENCES, PLACEMENT_TEST, TASK_LABELS, bandOf } from "../src/questions.js";
 import { RULES } from "../src/cefr-engine.js";
@@ -48,12 +49,13 @@ function selectTab(t) {
   }
 }
 tabs.forEach(([t], i) => {
-  $(t).onclick = () => selectTab(t);
+  $(t).onclick = () => { selectTab(t); if (t === "tab-prog") loadProgress(); };
   $(t).onkeydown = (e) => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     const j = (i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length;
     selectTab(tabs[j][0]);
     $(tabs[j][0]).focus();
+    if (tabs[j][0] === "tab-prog") loadProgress();
   };
 });
 
@@ -154,7 +156,7 @@ async function loadProfile() {
     $("profile-level").textContent = p.level || "—";
     const n = (p.history || []).length;
     $("profile-note").textContent = p.level
-      ? `${LEVEL_NAMES[p.level]} · ${n} teste${n === 1 ? "" : "s"} oficial${n === 1 ? "" : "is"}`
+      ? `${LEVEL_NAMES[p.level]} · ${n} ${n === 1 ? "teste oficial" : "testes oficiais"}`
       : `Faça ${Math.max(0, RULES.hysteresisSessions - n)} teste${RULES.hysteresisSessions - n === 1 ? "" : "s"} de nível para definir`;
     renderLadder();
   } catch { /* servidor fora do ar: o banner já avisa */ }
@@ -288,6 +290,27 @@ $("mic-read").onclick = async () => {
   }
   try { await readRec.start(); setMic($("mic-read"), true, ""); } catch (e) { micError("live-read", e); }
 };
+
+/* ---------- progresso ---------- */
+async function loadProgress() {
+  try { renderProgress($("prog-body"), await api.json("GET", "/api/progress")); }
+  catch (e) { $("prog-body").replaceChildren(el("p", "banner bad", "Não consegui carregar o progresso: " + e.message)); }
+}
+$("reset-prog").onclick = () => { $("reset-confirm").hidden = false; $("reset-no").focus(); };
+$("reset-no").onclick = () => { $("reset-confirm").hidden = true; };
+$("reset-yes").onclick = async () => {
+  try { await api.json("DELETE", "/api/history"); } catch (e) { alert(e.message); }
+  $("reset-confirm").hidden = true;
+  state.freeSessionId = null;
+  await loadProfile();
+  loadProgress();
+};
+
+for (const [title, text] of Object.values(FLAG_TEXT)) {
+  const d = el("div", "flag");
+  d.append(el("b", null, title + ":"), el("span", null, text));
+  $("flags-list").append(d);
+}
 
 /* ---------- serviços ---------- */
 async function checkServices() {
