@@ -1,0 +1,1700 @@
+[
+ {
+  "Id": "seg0",
+  "RecognitionStatus": "Success",
+  "Offset": 6000000,
+  "Duration": 32800000,
+  "Channel": 0,
+  "DisplayText": "Last year, in 2019, I traveled to Salvador with some friends.",
+  "SNR": 30.1,
+  "NBest": [
+   {
+    "Confidence": 0.93,
+    "Lexical": "last year in twenty nineteen i traveled to salvador with some friends",
+    "ITN": "last year in twenty nineteen i traveled to salvador with some friends",
+    "MaskedITN": "last year in twenty nineteen i traveled to salvador with some friends",
+    "Display": "Last year, in 2019, I traveled to Salvador with some friends.",
+    "PronunciationAssessment": {
+     "AccuracyScore": 78,
+     "FluencyScore": 80,
+     "ProsodyScore": 72,
+     "PronScore": 76,
+     "CompletenessScore": 100
+    },
+    "Words": [
+     {
+      "Word": "last",
+      "Offset": 6600000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "l",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "year",
+      "Offset": 9000000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "y",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "in",
+      "Offset": 11400000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "i",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "twenty",
+      "Offset": 14600000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "nineteen",
+      "Offset": 17800000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "n",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "i",
+      "Offset": 20200000,
+      "Duration": 2200000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "i",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "traveled",
+      "Offset": 23000000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 35,
+       "ErrorType": "Mispronunciation",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 35
+        }
+       }
+      ]
+     },
+     {
+      "Word": "to",
+      "Offset": 25400000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "salvador",
+      "Offset": 28600000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 62,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [
+           "Monotone"
+          ],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "s",
+        "PronunciationAssessment": {
+         "AccuracyScore": 62
+        }
+       }
+      ]
+     },
+     {
+      "Word": "with",
+      "Offset": 31000000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "w",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "some",
+      "Offset": 33400000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "s",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "friends",
+      "Offset": 35800000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "f",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "Id": "seg1",
+  "RecognitionStatus": "Success",
+  "Offset": 47800000,
+  "Duration": 127200000,
+  "Channel": 0,
+  "DisplayText": "We stayed there for one week and we visited a lot of places, like the old town and some beaches. The food was amazing, but it was very crowded, so sometimes it was difficult to relax.",
+  "SNR": 30.1,
+  "NBest": [
+   {
+    "Confidence": 0.93,
+    "Lexical": "we stayed there for one week and we visited a lot of places like the old town and some beaches the food was amazing but it was very crowded so sometimes it was difficult to relax",
+    "ITN": "we stayed there for one week and we visited a lot of places like the old town and some beaches the food was amazing but it was very crowded so sometimes it was difficult to relax",
+    "MaskedITN": "we stayed there for one week and we visited a lot of places like the old town and some beaches the food was amazing but it was very crowded so sometimes it was difficult to relax",
+    "Display": "We stayed there for one week and we visited a lot of places, like the old town and some beaches. The food was amazing, but it was very crowded, so sometimes it was difficult to relax.",
+    "PronunciationAssessment": {
+     "AccuracyScore": 74,
+     "FluencyScore": 77,
+     "ProsodyScore": 69,
+     "PronScore": 73,
+     "CompletenessScore": 100
+    },
+    "Words": [
+     {
+      "Word": "we",
+      "Offset": 48400000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "w",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "stayed",
+      "Offset": 51600000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "s",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "there",
+      "Offset": 54800000,
+      "Duration": 2200000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "for",
+      "Offset": 57600000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "f",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "one",
+      "Offset": 61200000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "o",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "week",
+      "Offset": 64800000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "w",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "and",
+      "Offset": 67200000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "a",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "we",
+      "Offset": 70800000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "w",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "visited",
+      "Offset": 74000000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "v",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "a",
+      "Offset": 77600000,
+      "Duration": 2200000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "a",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "lot",
+      "Offset": 80400000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "l",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "of",
+      "Offset": 84000000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "o",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "places",
+      "Offset": 87200000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "p",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "like",
+      "Offset": 102800000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "l",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "the",
+      "Offset": 105200000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "old",
+      "Offset": 108800000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "o",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "town",
+      "Offset": 112400000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "and",
+      "Offset": 114800000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "a",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "some",
+      "Offset": 118400000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "s",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "beaches",
+      "Offset": 120800000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 38,
+       "ErrorType": "Mispronunciation",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "b",
+        "PronunciationAssessment": {
+         "AccuracyScore": 38
+        }
+       }
+      ]
+     },
+     {
+      "Word": "the",
+      "Offset": 124400000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "food",
+      "Offset": 128000000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "f",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "was",
+      "Offset": 130400000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "w",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "amazing",
+      "Offset": 134000000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [
+           "Monotone"
+          ],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "a",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "but",
+      "Offset": 137600000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "b",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "it",
+      "Offset": 141200000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "i",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "was",
+      "Offset": 144400000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "w",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "very",
+      "Offset": 148000000,
+      "Duration": 1800000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "v",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "crowded",
+      "Offset": 150400000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 55,
+       "ErrorType": "Mispronunciation",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "c",
+        "PronunciationAssessment": {
+         "AccuracyScore": 55
+        }
+       }
+      ]
+     },
+     {
+      "Word": "so",
+      "Offset": 154000000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "s",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "sometimes",
+      "Offset": 157200000,
+      "Duration": 2200000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "s",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "it",
+      "Offset": 160000000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "i",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     },
+     {
+      "Word": "was",
+      "Offset": 163200000,
+      "Duration": 3000000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 70,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "w",
+        "PronunciationAssessment": {
+         "AccuracyScore": 70
+        }
+       }
+      ]
+     },
+     {
+      "Word": "difficult",
+      "Offset": 166800000,
+      "Duration": 2200000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 77,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [
+           "Monotone"
+          ],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "d",
+        "PronunciationAssessment": {
+         "AccuracyScore": 77
+        }
+       }
+      ]
+     },
+     {
+      "Word": "to",
+      "Offset": 169600000,
+      "Duration": 2600000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 84,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "t",
+        "PronunciationAssessment": {
+         "AccuracyScore": 84
+        }
+       }
+      ]
+     },
+     {
+      "Word": "relax",
+      "Offset": 172800000,
+      "Duration": 2200000,
+      "PronunciationAssessment": {
+       "AccuracyScore": 91,
+       "ErrorType": "None",
+       "Feedback": {
+        "Prosody": {
+         "Break": {
+          "ErrorTypes": [
+           "None"
+          ],
+          "BreakLength": 0
+         },
+         "Intonation": {
+          "ErrorTypes": [],
+          "Monotone": {
+           "SyllablePitchDeltaConfidence": 0.8
+          }
+         }
+        }
+       }
+      },
+      "Syllables": [],
+      "Phonemes": [
+       {
+        "Phoneme": "r",
+        "PronunciationAssessment": {
+         "AccuracyScore": 91
+        }
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "Id": "end",
+  "RecognitionStatus": "EndOfDictation",
+  "Offset": 184000000,
+  "Duration": 0
+ }
+]
