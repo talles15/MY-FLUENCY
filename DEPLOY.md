@@ -28,7 +28,7 @@ As chaves secretas ficam só na Vercel; o navegador recebe apenas a URL e a chav
    | `ANTHROPIC_API_KEY` | sua chave da Anthropic |
    | `ANTHROPIC_MODEL_FREE` | `claude-haiku-5-5` (conversa livre) |
    | `ANTHROPIC_MODEL_TEST` | `claude-sonnet-5-5` (teste de nível) |
-   | `AZURE_SPEECH_KEY` / `AZURE_SPEECH_REGION` | chave e região do Azure Speech |
+   | `AZURE_SPEECH_KEY` / `AZURE_SPEECH_REGION` | chave e código da região do Azure Speech (ex.: `eastus`); teste com `npm run check:azure` |
    | `SUPABASE_URL` | URL do projeto |
    | `SUPABASE_PUBLISHABLE_KEY` | chave publishable/anon |
    | `SUPABASE_SECRET_KEY` | chave secret/service_role |

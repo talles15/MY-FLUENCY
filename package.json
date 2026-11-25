@@ -8,7 +8,8 @@
     "build": "vite build",
     "start": "node server/index.js",
     "test": "node --test",
-    "calibrate": "node scripts/calibrate.js"
+    "calibrate": "node scripts/calibrate.js",
+    "check:azure": "node scripts/check-azure.js"
   },
   "license": "UNLICENSED",
   "dependencies": {
